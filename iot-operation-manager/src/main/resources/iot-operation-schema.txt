@@ -1,0 +1,23 @@
+// Create Keyspace
+CREATE KEYSPACE IF NOT EXISTS IotOperationSpace WITH replication = { 'class':'SimpleStrategy', 'replication_factor':1};
+
+// Drop existing tables
+DROP TABLE IF EXISTS IotOperationSpace.Device_User;
+DROP TABLE IF EXISTS IotOperationSpace.Carrier_Tower;
+DROP TABLE IF EXISTS IotOperationSpace.Device_User;
+
+DROP TABLE IF EXISTS IotOperationSpace.Content_By_Age_Policy_Rule;
+DROP TABLE IF EXISTS IotOperationSpace.Tower_Carrier_Platform_Policy_Rule;
+
+// Create table
+CREATE TABLE IF NOT EXISTS IotOperationSpace.Carrier(name TEXT, id UUID, is_active BOOLEAN, timeStamp TIMESTAMP, PRIMARY KEY(name));
+CREATE TABLE IF NOT EXISTS IotOperationSpace.Tower_GPS(tower_name TEXT, longitude_start TEXT, latitude_start TEXT, longitude_end TEXT, latitude_end TEXT, is_active BOOLEAN, PRIMARY KEY(tower_name));
+CREATE TABLE IF NOT EXISTS IotOperationSpace.Carrier_Tower(carrier_name TEXT, tower_name TEXT, is_active BOOLEAN, timeStamp TIMESTAMP, PRIMARY KEY((carrier_name), tower_name));
+CREATE TABLE IF NOT EXISTS IotOperationSpace.Device_User(carrier_name TEXT, ssn TEXT, email TEXT, tower_name TEXT, platform_name TEXT, approval_id TEXT, id UUID, first_name TEXT, last_name TEXT, date_of_birth TIMESTAMP, device_type TEXT, device_id TEXT, longitude TEXT, latitude TEXT, is_active BOOLEAN, created_timeStamp TIMESTAMP, modified_timeStamp TIMESTAMP, PRIMARY KEY ((carrier_name), ssn, email));
+
+CREATE TABLE IF NOT EXISTS IotOperationSpace.Content_By_Age_Policy_Rule(id UUID, start_age INT, end_age INT, content_types set<TEXT>, PRIMARY KEY(id));
+CREATE TABLE IF NOT EXISTS IotOperationSpace.Tower_Carrier_Platform_Policy_Rule(tower_name TEXT, carrier_name TEXT, platform_name TEXT, is_active BOOLEAN, PRIMARY KEY((tower_name), carrier_name, platform_name));
+
+
+
+
